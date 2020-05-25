@@ -413,5 +413,6 @@ def read_bhv(filename):
                 }
         bhv['Trials'] = pd.DataFrame.from_dict(trials_dict)
 
+    bhv['StartTime'] = pd.to_datetime(bhv['StartTime'], format='%d-%b-%Y %H:%M:%S')
 
     return bhv

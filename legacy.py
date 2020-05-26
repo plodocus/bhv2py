@@ -396,22 +396,23 @@ def read_bhv(filename):
 
         bhv['FinishTime'] = r.read(f, 'uchar', 32)
 
-        trials_dict = {
-                'TrialNumber': trialnumber,
-                'AbsoluteTrialStartTime': abs_trial_start_time,
-                'TrialDateTime': trial_datetime,
-                'BlockNumber': blocknumber,
-                'ConditionNumber': condnumber,
-                'JoyRotationDeg': joyrotationdeg,
-                'TrialError': trialerror,
-                'MinCycleRate': mincyclerate,
-                'CycleRate': cyclerate,
-                'NumCodes': numcodes,
-                'Codes': list(codes.values()),
-                'ReactionTime': rt,
-                'AnalogData': list(analogdata.values()),
-                }
-        bhv['Trials'] = pd.DataFrame.from_dict(trials_dict)
+    trials_dict = {
+            'TrialNumber': trialnumber,
+            'AbsoluteTrialStartTime': abs_trial_start_time,
+            'TrialDateTime': trial_datetime,
+            'BlockNumber': blocknumber,
+            'ConditionNumber': condnumber,
+            'JoyRotationDeg': joyrotationdeg,
+            'TrialError': trialerror,
+            'MinCycleRate': mincyclerate,
+            'CycleRate': cyclerate,
+            'NumCodes': numcodes,
+            'Codes': list(codes.values()),
+            'ReactionTime': rt,
+            'ObjectStatusRecord': list(objectstatusrecord.values()),
+            'AnalogData': list(analogdata.values()),
+            }
+    bhv['Trials'] = pd.DataFrame.from_dict(trials_dict)
 
     bhv['StartTime'] = pd.to_datetime(bhv['StartTime'], format='%d-%b-%Y %H:%M:%S')
 

@@ -47,9 +47,14 @@ def read_bhv(filename):
         if bhvver > 2.1:
             bhv['ComputerName'] = r.read(f, 'uchar', 128)
         bhv['ConditionsFile'] = r.read(f, 'uchar', 128)
-        bhv['NumConds'] = r.read(f, 'uint16', 1)
-        bhv['ObjectsPerCond'] = r.read(f, 'uint16', 1)
-        bhv['TaskObject'] = r.read(f, 'uchar', 64*bhv['NumConds']*bhv['ObjectsPerCond'])
+        num_cnds = r.read(f, 'uint16', 1)
+        obj_per_cnd = r.read(f, 'uint16', 1)
+        task_obj = r.read(f, 'uchar', 64*num_cnds*obj_per_cnd)
+        task_obj = np.array([task_obj[(i*64):(i+1)*64].strip() for i in range(num_cnds*obj_per_cnd)])
+        task_obj = task_obj.reshape(obj_per_cnd, num_cnds).T
+        bhv['NumConds'] = num_cnds
+        bhv['ObjectsPerCond'] = obj_per_cnd
+        bhv['TaskObject'] = task_obj
         if bhvver > 2.65:
             bhv['TimingFileByCond'] = r.read(f, 'uchar', bhv['NumConds']*128)
             if bhvver > 2.71:

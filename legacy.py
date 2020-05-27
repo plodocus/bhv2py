@@ -331,8 +331,8 @@ def read_bhv(filename):
                                 data_this.append([r.read(f, 'double') for i in range(datacount)])
                         data.append(data_this)
                     objectstatusrecord[tr] = {
-                            'Status': status,
-                            'Time': time,
+                            'Status': np.array(status, dtype=np.int),
+                            'Time': np.array(time),
                             'Data': data,
                             }
                 else:

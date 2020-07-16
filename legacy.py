@@ -1,6 +1,8 @@
 import struct
 import numpy as np
 import pandas as pd
+import locale
+locale.setlocale(locale.LC_ALL, 'en_US.UTF-8')
 
 
 class reader:

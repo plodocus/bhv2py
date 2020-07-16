@@ -62,7 +62,16 @@ def read_bhv(filename):
                 bhv['BlockByCond'] = r.read(f, 'uint8', bhv['NumConds']*maxblocks)
             else:
                 bhv['BlockByCond'] = r.read(f, 'uint8', bhv['NumConds'])
-            bhv['InfoByCond'] = r.read(f, 'uchar', bhv['NumConds']*128)
+            info_by_cond = r.read(f, 'uchar', bhv['NumConds']*128)
+            info_by_cond = [info_by_cond[(i*128):(i+1)*128].split() for i in range(bhv['NumConds'])]
+            ibc = []
+            for info in info_by_cond:
+                this_cnd = {}
+                for pair in info:
+                    pair = pair.replace("'","").split(',')[:2]
+                    this_cnd[pair[0]] = pair[1]
+                ibc.append(this_cnd)
+            bhv['InfoByCond'] = pd.DataFrame(ibc)
         num_timing_files = r.read(f, 'uint8', 1)
         bhv['TimingFiles'] = r.read(f, 'uchar', 128*num_timing_files)
         bhv['ErrorLogic'] = r.read(f, 'uchar', 64)

@@ -2,6 +2,7 @@ import struct
 import numpy as np
 import pandas as pd
 import locale
+import warnings
 locale.setlocale(locale.LC_ALL, 'en_US.UTF-8')
 
 
@@ -186,6 +187,9 @@ def read_bhv(filename):
         padding = r.read(f, 'uint8', 1024)
         bhv['NumTrials'] = r.read(f, 'uint16', 1)
         n_trl = bhv['NumTrials']
+        if n_trl == 0:
+            warnings.warn(f'No trial data found in {filename}. Exiting.')
+            return bhv
 
         trialnumber = np.zeros(n_trl, dtype=np.int)
         blocknumber = np.zeros(n_trl, dtype=np.int)

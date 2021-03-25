@@ -99,7 +99,7 @@ def read_bhv(filename):
 
         bhv['EyeSignalCalibrationMethod'] = r.read(f, 'uchar', 32)
         tmatrix = r.read(f, 'uint8', 1)
-        if bhvver > 4.0:
+        if bhvver < 4.0:
             tmatrix = 1 + tmatrix * 2
         if tmatrix == 1:
             bhv['EyeTransform'] = None
@@ -124,7 +124,7 @@ def read_bhv(filename):
 
         bhv['JoystickCalibrationMethod'] = r.read(f, 'uchar', 32)
         tmatrix = r.read(f, 'uint8', 1)
-        if bhvver > 4.0:
+        if bhvver < 4.0:
             tmatrix = 1 + tmatrix * 2
         if tmatrix == 1:
             bhv['JoyTransform'] = None

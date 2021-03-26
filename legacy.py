@@ -165,8 +165,8 @@ def read_bhv(filename):
             pic['Size'] = r.read(f, 'uint16', 3)
         for pic in PIC:
             sz = pic['Size']
-            sz = sz[0]*sz[1]*sz[2]
-            pic['Data'] = r.read(f, 'uint8', sz)
+            pic_data = np.array(r.read(f, 'uint8', np.prod(sz)))
+            pic["Data"] = pic_data.reshape(sz, order="F")
         bhv['Stimuli']['PIC'] = PIC
 
         if bhvver > 2.5:
@@ -179,11 +179,11 @@ def read_bhv(filename):
                 mov['Size'] = sz[:3]
                 mov['NumFrames'] = sz[3]
             for mov in MOV:
+                nframes = mov['NumFrames']
                 sz = mov['Size']
-                sz = sz[0]*sz[1]*sz[2]
-                data = []
-                for fr in mov['NumFrames']:
-                    data.append(r.read(f, 'uint8', sz))
+                data = np.zeros(sz + (nframes,), dtype=np.uint8)
+                for fr in range(nframes):
+                    data[:,:,:,fr] = r.read(f, 'uint8', np.prod(sz)).reshape((sz), order="F")
                 mov['Data'] = data
             bhv['Stimuli']['MOV'] = MOV
 

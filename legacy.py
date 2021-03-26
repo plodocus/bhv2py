@@ -30,8 +30,11 @@ class reader:
                 fmt = '<'
             elif self.endianness == 'big':
                 fmt = '>'
-
-            return struct.unpack(fmt+str(n)+this_dtype[1], buf)[0]
+            unpacked = struct.unpack(fmt+str(n)+this_dtype[1], buf)[:n]
+            if n == 1:
+                return unpacked[0]
+            else:
+                return unpacked
 
 
 def read_bhv(filename):

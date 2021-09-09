@@ -1,0 +1,12 @@
+# YAML 1.2
+---
+authors: 
+  -
+    affiliation: "Technical University Munich"
+    family-names: "Hähnke"
+    given-names: Daniel
+    orcid: "https://orcid.org/0000-0002-7008-6503"
+cff-version: "1.1.0"
+message: "If you use this software, please cite it using these metadata."
+title: bhv2py
+...
